@@ -15,6 +15,7 @@ There is no production deployment, app store release, EAS build setup, CI pipeli
 - Expo SQLite and Drizzle ORM for local persistence.
 - Expo Speech Recognition for speech-to-text.
 - Expo Speech for text-to-speech playback.
+- i18next and React i18next for English/Arabic UI localization.
 - React Native Vision Camera for camera preview and frame output.
 - React Native Executorch for on-device object detection.
 - `patch-package` for temporary dependency compatibility patches.
@@ -146,6 +147,7 @@ This repo intentionally uses `patch-package`. The patches are applied automatica
 
 ### `react-native-css-interop@0.2.4`
 
+- Maps NativeWind `text-start` and `text-end` to React Native-compatible `left` and `right` text alignment values during CSS parsing.
 - Updates the Metro virtual style change event payload from the older `eventsQueue` shape to the current `changes` shape expected by the Metro version used with Expo SDK 56 / React Native 0.85.
 - Wraps NativeWind/CSS interop upgrade-warning prop serialization in `safeStringify` so circular or otherwise non-serializable props do not crash logging.
 
@@ -186,10 +188,13 @@ npm run db:generate
 
 - The Listen flow stores conversations and messages locally in Expo SQLite.
 - Conversation messages support English and Arabic language metadata.
-- The app language preference is stored locally, but full UI localization is not implemented yet.
+- The app UI is localized in English and Arabic through `src/lib/i18n/resources`.
+- The app language preference is stored locally in SQLite and is initialized from the stored preference or the device locale.
+- Arabic switches the app to RTL with React Native `I18nManager`; direction changes require an app reload so native RTL layout flags are applied consistently.
+- Directional icons opt into RTL mirroring through the shared `Icon` wrapper's `autoMirror` prop.
 - Speech recognition requests permission from the feature flow.
 - Camera permission is requested from the See flow.
-- Object detection currently uses `SSDLITE_320_MOBILENET_V3_LARGE` through React Native Executorch.
+- Object detection currently uses [`SSDLITE_320_MOBILENET_V3_LARGE`](https://huggingface.co/software-mansion/react-native-executorch-ssdlite320-mobilenet-v3-large) through [React Native ExecuTorch object detection](https://docs.swmansion.com/react-native-executorch/docs/0.5.x/hooks/computer-vision/useObjectDetection). The underlying model is TorchVision's [SSDLite320 MobileNetV3 Large](https://pytorch.org/vision/main/models/generated/torchvision.models.detection.ssdlite320_mobilenet_v3_large.html).
 - The app has no server-side storage today; privacy statements must be revisited if cloud sync, analytics, AI APIs, crash reporting, or account features are added.
 
 ## Deployment
