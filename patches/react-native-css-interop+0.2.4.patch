@@ -1,5 +1,22 @@
+diff --git a/node_modules/react-native-css-interop/dist/css-to-rn/parseDeclaration.js b/node_modules/react-native-css-interop/dist/css-to-rn/parseDeclaration.js
+index 59ea66e..fbadbd8 100644
+--- a/node_modules/react-native-css-interop/dist/css-to-rn/parseDeclaration.js
++++ b/node_modules/react-native-css-interop/dist/css-to-rn/parseDeclaration.js
+@@ -1690,6 +1690,12 @@ function parseRNRuntimeSpecificsFunction(name, args, options) {
+     return [{}, name, Object.entries(runtimeArgs)];
+ }
+ function parseTextAlign(textAlign, options) {
++    if (textAlign === "start") {
++        return "left";
++    }
++    if (textAlign === "end") {
++        return "right";
++    }
+     const allowed = new Set(["auto", "left", "right", "center", "justify"]);
+     if (allowed.has(textAlign)) {
+         return textAlign;
 diff --git a/node_modules/react-native-css-interop/dist/metro/index.js b/node_modules/react-native-css-interop/dist/metro/index.js
-index c91ba6a..09cb8e0 100644
+index c91ba6a..cc7b004 100644
 --- a/node_modules/react-native-css-interop/dist/metro/index.js
 +++ b/node_modules/react-native-css-interop/dist/metro/index.js
 @@ -177,17 +177,21 @@ async function startCSSProcessor(filePath, platform, isDev, { input, getCSSForPl
@@ -36,7 +53,7 @@ index c91ba6a..09cb8e0 100644
          }).then((css) => {
              debug(`virtualStyles.initial ${platform}`);
 diff --git a/node_modules/react-native-css-interop/dist/runtime/native/render-component.js b/node_modules/react-native-css-interop/dist/runtime/native/render-component.js
-index eba25ec..cf43d09 100644
+index eba25ec..fa0dce8 100644
 --- a/node_modules/react-native-css-interop/dist/runtime/native/render-component.js
 +++ b/node_modules/react-native-css-interop/dist/runtime/native/render-component.js
 @@ -118,7 +118,16 @@ function createAnimatedComponent(Component) {
@@ -57,6 +74,25 @@ index eba25ec..cf43d09 100644
  }
  function stringify(object) {
      const seen = new WeakSet();
+diff --git a/node_modules/react-native-css-interop/src/css-to-rn/parseDeclaration.ts b/node_modules/react-native-css-interop/src/css-to-rn/parseDeclaration.ts
+index bf095a5..84ed839 100644
+--- a/node_modules/react-native-css-interop/src/css-to-rn/parseDeclaration.ts
++++ b/node_modules/react-native-css-interop/src/css-to-rn/parseDeclaration.ts
+@@ -2553,6 +2553,14 @@ function parseTextAlign(
+   textAlign: TextAlign,
+   options: ParseDeclarationOptionsWithValueWarning,
+ ) {
++  if (textAlign === "start") {
++    return "left";
++  }
++
++  if (textAlign === "end") {
++    return "right";
++  }
++
+   const allowed = new Set(["auto", "left", "right", "center", "justify"]);
+   if (allowed.has(textAlign)) {
+     return textAlign;
 diff --git a/node_modules/react-native-css-interop/src/metro/index.ts b/node_modules/react-native-css-interop/src/metro/index.ts
 index fa58c7b..bb72dfc 100644
 --- a/node_modules/react-native-css-interop/src/metro/index.ts
