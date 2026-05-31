@@ -1,6 +1,8 @@
 import { Alert, Linking } from "react-native";
 import * as StoreReview from "expo-store-review";
 
+import { i18n } from "@/lib/i18n/i18n";
+
 const requestAppReview = async () => {
   try {
     if (await StoreReview.isAvailableAsync()) {
@@ -15,13 +17,13 @@ const requestAppReview = async () => {
     }
 
     Alert.alert(
-      "Store Review Not Available",
-      "Store review is not available on this device. Please rate Helprr on the app store instead.",
+      i18n.t("alerts.review_unavailable_title"),
+      i18n.t("alerts.review_unavailable_text"),
     );
   } catch {
     Alert.alert(
-      "Something Went Wrong",
-      "An error occurred while trying to rate Helprr. Please try again.",
+      i18n.t("common.something_went_wrong"),
+      i18n.t("alerts.review_error"),
     );
   }
 };

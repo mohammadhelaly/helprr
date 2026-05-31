@@ -1,7 +1,7 @@
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 
-import type { LanguageLocale } from "@/constants/language";
+import type { LanguageCode } from "@/lib/i18n/i18n";
 import {
   addMessage,
   createConversation,
@@ -74,7 +74,7 @@ const useChatConversation = (conversationId: string) => {
   useFocusEffect(refresh);
 
   const add = useCallback(
-    (body: string, type: MessageType, language: LanguageLocale) => {
+    (body: string, type: MessageType, language: LanguageCode) => {
       const trimmed = body.trim();
       if (!trimmed) return undefined;
 

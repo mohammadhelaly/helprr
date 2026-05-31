@@ -1,16 +1,11 @@
-const dateFormatter = new Intl.DateTimeFormat(undefined, {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-});
-
-const timeFormatter = new Intl.DateTimeFormat(undefined, {
-  hour: "numeric",
-  minute: "2-digit",
-});
+import { defaultLanguage, i18n } from "@/lib/i18n/i18n";
 
 const formatDate = (value: number) => {
-  return dateFormatter.format(new Date(value));
+  return new Intl.DateTimeFormat(i18n.language || defaultLanguage, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(value));
 };
 
 const isSameDate = (left: number, right: number) => {
@@ -25,7 +20,10 @@ const isSameDate = (left: number, right: number) => {
 };
 
 const formatTime = (value: number) => {
-  return timeFormatter.format(new Date(value));
+  return new Intl.DateTimeFormat(i18n.language || defaultLanguage, {
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(new Date(value));
 };
 
 export { formatDate, formatTime, isSameDate };

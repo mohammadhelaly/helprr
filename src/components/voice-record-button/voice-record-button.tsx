@@ -11,6 +11,7 @@ import { scheduleOnRN } from "react-native-worklets";
 
 import { Icon } from "@/components/icon";
 import { colors, sizes } from "@/constants/theme";
+import { useNavigationChrome } from "@/hooks/use-navigation-chrome";
 
 interface Props {
   isListening: boolean;
@@ -28,6 +29,8 @@ const recordGestureHitSlop = sizes.spacing.sm;
 const recordGestureMinDistance = sizes.spacing.xs;
 
 const recordHoldDuration = 100;
+const recordBottomOffset = sizes.spacing.xxxl;
+const recordTopGap = sizes.spacing.md;
 
 const recordPulse: CSSAnimationKeyframes = {
   from: { backgroundColor: colors.pink, transform: [{ scale: 1 }] },
@@ -54,6 +57,7 @@ const VoiceRecordButton = (props: Props) => {
   const { isListening, errorMessage, partialTranscript, onStart, onStop } =
     props;
   const { height: screenHeight, width: screenWidth } = useWindowDimensions();
+  const { verticalChromeHeight } = useNavigationChrome();
 
   const statusText = errorMessage ?? partialTranscript;
 
@@ -73,7 +77,14 @@ const VoiceRecordButton = (props: Props) => {
   const horizontalLimit = (screenWidth - controlWidth) / 2;
   const minX = -horizontalLimit;
   const maxX = horizontalLimit;
-  const minY = -(screenHeight - controlHeight);
+  const minY = -Math.max(
+    0,
+    screenHeight -
+      verticalChromeHeight -
+      recordBottomOffset -
+      recordTopGap -
+      controlHeight,
+  );
   const maxY = 0;
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
@@ -122,9 +133,11 @@ const VoiceRecordButton = (props: Props) => {
 
   return (
     <Animated.View
-      className="absolute bottom-20 end-0 start-0 z-10 flex flex-col items-center justify-center"
+      className="absolute end-0 start-0 z-10 flex flex-col items-center justify-center"
+      pointerEvents="box-none"
       style={[
         {
+          bottom: recordBottomOffset,
           gap: statusGap,
         },
         dragStyle,

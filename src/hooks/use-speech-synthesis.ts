@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import * as Speech from "expo-speech";
 
-import type { LanguageLocale } from "@/constants/language";
+import type { LanguageCode } from "@/lib/i18n/i18n";
 
 const useSpeechSynthesis = () => {
   const [speakingId, setSpeakingId] = useState<string | null>(null);
@@ -13,7 +13,7 @@ const useSpeechSynthesis = () => {
   }, []);
 
   const speak = useCallback(
-    async (text: string, language: LanguageLocale, id?: string) => {
+    async (text: string, language: LanguageCode, id?: string) => {
       const trimmed = text.trim();
       if (!trimmed) return;
 

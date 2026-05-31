@@ -1,6 +1,7 @@
 import { FlashList, type FlashListRef } from "@shopify/flash-list";
 import { Stack, useIsFocused } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Text, View } from "react-native";
 
 import { Button } from "@/components/button";
@@ -10,9 +11,10 @@ import { Warning } from "@/components/warning";
 import { sizes } from "@/constants/theme";
 import { useChatConversation } from "@/hooks/use-chat";
 import { useConversationLanguage } from "@/hooks/use-language-preferences";
+import { useNavigationChrome } from "@/hooks/use-navigation-chrome";
 import { useSpeechSynthesis } from "@/hooks/use-speech-synthesis";
 import type { Message } from "@/lib/db/schema";
-import { getNextLanguageLocale } from "@/lib/language/language";
+import { getNextLanguageCode } from "@/lib/i18n/i18n";
 import {
   getSpeechPermission,
   openAppSettings,
@@ -25,7 +27,9 @@ type Props = {
 };
 
 const ConversationScreenContent = (props: Props) => {
+  const { t } = useTranslation();
   const { conversationId } = props;
+  const { stackHeaderHeight } = useNavigationChrome();
   const isFocused = useIsFocused();
   const { conversation, messages, addMessage, editMessage } =
     useChatConversation(conversationId);
@@ -39,7 +43,7 @@ const ConversationScreenContent = (props: Props) => {
     useState(true);
 
   const selectNextLanguage = () => {
-    selectLanguage(getNextLanguageLocale(language));
+    selectLanguage(getNextLanguageCode(language));
   };
 
   const refreshSpeechPermission = useCallback(async () => {
@@ -73,7 +77,7 @@ const ConversationScreenContent = (props: Props) => {
     <>
       <Stack.Screen
         options={{
-          title: conversation?.title ?? "Conversation",
+          title: conversation?.title ?? t("navigation.conversation"),
         }}
       />
       <KeyboardAvoidingView
@@ -82,18 +86,18 @@ const ConversationScreenContent = (props: Props) => {
         // Same height as the header to ensure the input is fully visible when the keyboard is open
         // This value means: how far from the top of the screen your app content starts before keyboard avoidance should begin
         // It is usually the header height
-        keyboardVerticalOffset={sizes.sizing.lg}
+        keyboardVerticalOffset={stackHeaderHeight}
       >
         {hasSpeechPermission === false ? (
           <Warning
             icon="mic-outline"
-            title="Speech permission needed"
-            text="Allow speech recognition and microphone access to record speech in this conversation."
+            title={t("listen.speech_permission_title")}
+            text={t("listen.speech_permission_text")}
           >
             <Button onPress={handleSpeechPermission}>
               {canAskAgainForSpeechPermission
-                ? "Grant speech access"
-                : "Open settings"}
+                ? t("listen.grant_speech_access")
+                : t("common.open_settings")}
             </Button>
           </Warning>
         ) : messages.length > 0 ? (
@@ -136,7 +140,10 @@ const ConversationScreenContent = (props: Props) => {
             style={{ flex: 1 }}
           />
         ) : (
-          <Warning text="Make sure your phone is not silent and that you have speech recognition enabled." />
+          <Warning
+            icon="information-circle-outline"
+            text={t("listen.silent_phone_warning")}
+          />
         )}
         <ConversationInput
           language={language}

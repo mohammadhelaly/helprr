@@ -1,16 +1,14 @@
 import { Pressable, Text } from "react-native";
 
-import type { LanguageLocale } from "@/constants/language";
-import { getLanguageOption } from "@/lib/language/language";
+import type { LanguageCode } from "@/lib/i18n/i18n";
 
 interface Props {
-  language: LanguageLocale;
+  language: LanguageCode;
   onToggle: () => void;
 }
 
 const LanguageToggle = (props: Props) => {
   const { language, onToggle } = props;
-  const languageOption = getLanguageOption(language);
 
   return (
     <Pressable
@@ -18,7 +16,7 @@ const LanguageToggle = (props: Props) => {
       onPress={onToggle}
     >
       <Text className="text-sm font-bold text-black">
-        {languageOption.symbol}
+        {language.toUpperCase()}
       </Text>
     </Pressable>
   );

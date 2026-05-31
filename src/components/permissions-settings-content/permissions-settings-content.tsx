@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Text, View } from "react-native";
 
 import { SettingsOption } from "@/components/settings-option";
@@ -14,6 +15,7 @@ import {
 } from "@/lib/permissions/app-permissions";
 
 const PermissionsSettingsContent = () => {
+  const { t } = useTranslation();
   const [hasCameraPermission, setHasCameraPermission] = useState(false);
   const [canAskAgainForCameraPermission, setCanAskAgainForCameraPermission] =
     useState(false);
@@ -82,16 +84,16 @@ const PermissionsSettingsContent = () => {
 
   return (
     <View className="flex-1 justify-center">
-      <Text className="px-4 text-base text-grey">
-        Allow Helprr to access your:
+      <Text className="self-start px-4 text-start text-base text-grey">
+        {t("settings.permissions_intro")}
       </Text>
       <SettingsOption
-        label="Camera"
+        label={t("settings.camera")}
         trailingIcon={hasCameraPermission ? "checkmark-sharp" : null}
         onPress={handleCameraPermissions}
       />
       <SettingsOption
-        label="Microphone"
+        label={t("settings.microphone")}
         trailingIcon={hasMicrophonePermission ? "checkmark-sharp" : null}
         onPress={handleMicrophonePermissions}
       />

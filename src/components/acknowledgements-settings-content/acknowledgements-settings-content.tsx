@@ -1,4 +1,5 @@
 import { FlashList } from "@shopify/flash-list";
+import { useTranslation } from "react-i18next";
 import { Text, View } from "react-native";
 
 import {
@@ -7,20 +8,28 @@ import {
 } from "@/data/legal/generated/open-source-notice-data";
 
 const AcknowledgementsSettingsContent = () => {
+  const { t } = useTranslation();
+
   const renderItem = ({ item }: { item: OpenSourceNotice }) => {
     return (
-      <View className="mx-4 my-2 items-start justify-start gap-2">
-        <Text className="text-sm font-bold text-black">
+      <View
+        className="mx-4 my-2 justify-start gap-2"
+        // All text in this view is in English, so we want to ensure it's always left-to-right
+        style={{ direction: "ltr" }}
+      >
+        <Text className="text-start text-sm font-bold text-black">
           {item.name} {item.version}
         </Text>
-        <Text className="text-xs font-semibold text-black">
-          License: {item.license}
+        <Text className="text-start text-xs font-semibold text-black">
+          {t("legal.license_label")}: {item.license}
         </Text>
         {item.repository ? (
-          <Text className="text-[8px] text-black">{item.repository}</Text>
+          <Text className="text-start text-[8px] text-black">
+            {item.repository}
+          </Text>
         ) : null}
-        <Text className="text-[8px] text-black">
-          {item.licenseText || "License text unavailable in package metadata."}
+        <Text className="text-start text-[8px] text-black">
+          {item.licenseText || t("legal.license_unavailable")}
         </Text>
       </View>
     );
@@ -30,7 +39,7 @@ const AcknowledgementsSettingsContent = () => {
     <FlashList
       ListHeaderComponent={
         <Text className="m-4 text-base font-bold text-black">
-          Helprr makes use of the following third-party libraries:
+          {t("legal.acknowledgements_summary")}
         </Text>
       }
       data={openSourceNotices}

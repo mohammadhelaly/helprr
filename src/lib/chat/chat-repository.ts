@@ -1,6 +1,6 @@
 import { and, desc, eq, isNull, notInArray } from "drizzle-orm";
 
-import type { LanguageLocale } from "@/constants/language";
+import type { LanguageCode } from "@/lib/i18n/i18n";
 import { db } from "@/lib/db/client";
 import {
   conversations,
@@ -9,7 +9,7 @@ import {
   type Message,
   type MessageType,
 } from "@/lib/db/schema";
-import { getLanguageOption } from "@/lib/language/language";
+import { i18n } from "@/lib/i18n/i18n";
 import { createId } from "@/lib/utils/prefixed-id";
 
 // This is to limit the number of converstations stored locally
@@ -43,11 +43,11 @@ const listConversations = () => {
     .all();
 };
 
-const createConversation = (title = "New Conversation") => {
+const createConversation = (title?: string) => {
   const now = Date.now();
   const conversation: Conversation = {
     id: createId("conversation"),
-    title,
+    title: title ?? i18n.t("listen.new_conversation"),
     createdAt: now,
     updatedAt: now,
     lastMessagePreview: null,
@@ -96,19 +96,18 @@ interface AddMessageInput {
   conversationId: string;
   body: string;
   type: MessageType;
-  language: LanguageLocale;
+  language: LanguageCode;
 }
 
 const addMessage = (input: AddMessageInput) => {
   const now = Date.now();
-  const languageOption = getLanguageOption(input.language);
   const message: Message = {
     id: createId("message"),
     conversationId: input.conversationId,
     body: input.body.trim(),
     type: input.type,
     language: input.language,
-    direction: languageOption.direction,
+    direction: i18n.dir(input.language),
     createdAt: now,
     deletedAt: null,
   };

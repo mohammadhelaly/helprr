@@ -1,9 +1,12 @@
 import { Tabs } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 import { Icon } from "@/components/icon";
 import { colors, sizes } from "@/constants/theme";
 
 const TabsLayout = () => {
+  const { t } = useTranslation();
+
   return (
     <Tabs
       screenOptions={{
@@ -23,7 +26,7 @@ const TabsLayout = () => {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: t("navigation.home"),
           tabBarIcon: ({ focused }) => (
             <Icon
               name="home-sharp"
@@ -36,7 +39,7 @@ const TabsLayout = () => {
       <Tabs.Screen
         name="listen"
         options={{
-          title: "Listen",
+          title: t("navigation.listen"),
           tabBarIcon: ({ focused }) => (
             <Icon
               name="ear-sharp"
@@ -49,7 +52,7 @@ const TabsLayout = () => {
       <Tabs.Screen
         name="see"
         options={{
-          title: "See",
+          title: t("navigation.see"),
           tabBarIcon: ({ focused }) => (
             <Icon
               name="eye-sharp"
@@ -62,7 +65,7 @@ const TabsLayout = () => {
       <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
+          title: t("navigation.settings"),
           tabBarIcon: ({ focused }) => (
             <Icon
               name="settings-sharp"

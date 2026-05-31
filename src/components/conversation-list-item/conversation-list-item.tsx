@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Alert, Platform, Pressable, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { EditableText } from "@/components/editable-text";
 import { Icon } from "@/components/icon";
@@ -15,6 +16,7 @@ type Props = {
 };
 
 const ConversationListItem = (props: Props) => {
+  const { t } = useTranslation();
   const { conversation, onDelete, onRename, onSelect } = props;
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(conversation.title);
@@ -40,12 +42,12 @@ const ConversationListItem = (props: Props) => {
 
   const confirmDelete = () => {
     Alert.alert(
-      "Delete Conversation",
-      "Are you sure you want to delete this conversation?",
+      t("listen.delete_conversation_title"),
+      t("listen.delete_conversation_text"),
       [
-        { text: "Cancel", style: "cancel" },
+        { text: t("listen.cancel"), style: "cancel" },
         {
-          text: "Delete",
+          text: t("listen.delete"),
           style: "destructive",
           onPress: () => onDelete(conversation.id),
         },

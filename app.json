@@ -60,8 +60,20 @@
           "microphonePermission": "Allow Helprr to access your microphone.",
           "speechRecognitionPermission": "Allow Helprr to use speech recognition."
         }
+      ],
+      [
+        "expo-localization",
+        {
+          "supportedLocales": {
+            "ios": ["en", "ar"],
+            "android": ["en", "ar"]
+          }
+        }
       ]
     ],
+    "extra": {
+      "supportsRTL": true
+    },
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true

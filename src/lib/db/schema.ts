@@ -1,6 +1,6 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-import type { LanguageLocale, LanguageOption } from "@/constants/language";
+import type { LanguageCode, TextDirection } from "@/lib/i18n/i18n";
 
 export const conversations = sqliteTable("conversations", {
   id: text("id").primaryKey(),
@@ -17,8 +17,8 @@ export const messages = sqliteTable("messages", {
     .references(() => conversations.id, { onDelete: "cascade" }),
   body: text("body").notNull(),
   type: text("type", { enum: ["text-to-speech", "speech-to-text"] }).notNull(),
-  language: text("language").$type<LanguageLocale>().notNull(),
-  direction: text("direction").$type<LanguageOption["direction"]>().notNull(),
+  language: text("language").$type<LanguageCode>().notNull(),
+  direction: text("direction").$type<TextDirection>().notNull(),
   createdAt: integer("created_at").notNull(),
   deletedAt: integer("deleted_at"),
 });

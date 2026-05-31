@@ -1,17 +1,15 @@
-import { useState } from "react";
-import { Platform, Pressable, TextInput, View } from "react-native";
-
 import { Icon } from "@/components/icon";
 import { LanguageToggle } from "@/components/language-toggle";
 import { VoiceRecordButton } from "@/components/voice-record-button";
-import type { LanguageLocale } from "@/constants/language";
 import { colors, sizes } from "@/constants/theme";
 import { useSpeechRecognition } from "@/hooks/use-speech-recognition";
 import { useSpeechSynthesis } from "@/hooks/use-speech-synthesis";
-import { getLanguageOption } from "@/lib/language/language";
+import { i18n, type LanguageCode } from "@/lib/i18n/i18n";
+import { useState } from "react";
+import { Platform, Pressable, TextInput, View } from "react-native";
 
 interface Props {
-  language: LanguageLocale;
+  language: LanguageCode;
   onToggleLanguage: () => void;
   onAddTextToSpeech: (text: string) => void;
   onAddSpeechToText: (text: string) => void;
@@ -20,7 +18,7 @@ interface Props {
 const ConversationInput = (props: Props) => {
   const { language, onToggleLanguage, onAddTextToSpeech, onAddSpeechToText } =
     props;
-  const languageOption = getLanguageOption(language);
+  const direction = i18n.dir(language);
 
   const [message, setMessage] = useState("");
   const { speak } = useSpeechSynthesis();
@@ -49,7 +47,7 @@ const ConversationInput = (props: Props) => {
       />
       <LanguageToggle language={language} onToggle={onToggleLanguage} />
       <TextInput
-        className={`min-h-10 flex-1 rounded-3xl border border-light-grey bg-light-grey px-4 ${Platform.OS === "ios" ? "py-auto" : "py-0"} text-base text-black ${languageOption.direction === "rtl" ? "text-end" : "text-start"}`}
+        className={`min-h-10 flex-1 rounded-3xl border border-light-grey bg-light-grey px-4 ${Platform.OS === "ios" ? "py-auto" : "py-0"} text-base text-black ${direction === "rtl" ? "text-end" : "text-start"}`}
         multiline
         value={message}
         onChangeText={setMessage}
@@ -60,6 +58,7 @@ const ConversationInput = (props: Props) => {
       >
         <Icon
           name="arrow-forward-sharp"
+          autoMirror
           size={sizes.icon.sm}
           color={colors.white}
         />

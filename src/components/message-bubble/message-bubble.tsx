@@ -60,10 +60,8 @@ const MessageBubble = (props: Props) => {
         }`}
       >
         <View
-          className={`absolute bottom-3 h-0 w-0 border-b-[16px] border-t-[16px] border-b-transparent border-t-transparent ${
-            isSpeechToText
-              ? "-left-3 border-r-[24px] border-r-white"
-              : "-right-3 border-l-[24px] border-l-white"
+          className={`absolute bottom-6 h-4 w-4 rotate-45 bg-white ${
+            isSpeechToText ? "-left-2" : "-right-2"
           }`}
         />
         <EditableText

@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from "react";
+import { useTranslation } from "react-i18next";
 import { Text, View } from "react-native";
 
 import { Icon, type IconName } from "@/components/icon";
@@ -7,16 +8,12 @@ import { colors, sizes } from "@/constants/theme";
 type Props = PropsWithChildren<{
   title?: string;
   text: string;
-  icon?: IconName;
+  icon: IconName;
 }>;
 
 const Warning = (props: Props) => {
-  const {
-    title = "Nothing here yet",
-    text,
-    icon = "information-circle-outline",
-    children,
-  } = props;
+  const { t } = useTranslation();
+  const { title = t("common.nothing_here"), text, icon, children } = props;
 
   return (
     <View className="flex-1 items-center justify-center px-8">

@@ -8,6 +8,7 @@ interface Props {
   description?: string;
   disabled?: boolean;
   trailingIcon?: IconName | null;
+  trailingIconAutoMirror?: boolean;
   trailingText?: string;
   onPress?: () => void;
 }
@@ -15,9 +16,9 @@ interface Props {
 const SettingsOption = (props: Props) => {
   const {
     label,
-    description,
     disabled = false,
     trailingIcon,
+    trailingIconAutoMirror = false,
     trailingText,
     onPress,
   } = props;
@@ -29,19 +30,20 @@ const SettingsOption = (props: Props) => {
       onPress={onPress}
     >
       <View className="w-full border-b border-light-grey py-8">
-        <View className="w-full flex-row items-center justify-between">
+        <View className="w-full flex-row items-center justify-between gap-4">
           <View className="flex-1 flex-row items-center">
-            <View className="flex-1">
-              <Text className="text-lg text-black">{label}</Text>
-              {description ? (
-                <Text className="mt-1 text-xs text-grey">{description}</Text>
-              ) : null}
-            </View>
+            <Text className="text-start text-lg text-black">{label}</Text>
           </View>
           {trailingIcon ? (
-            <Icon name={trailingIcon} color={colors.black} />
+            <Icon
+              name={trailingIcon}
+              autoMirror={trailingIconAutoMirror}
+              color={colors.black}
+            />
           ) : trailingText ? (
-            <Text className="text-base text-grey">{trailingText}</Text>
+            <Text className="text-start text-base text-grey">
+              {trailingText}
+            </Text>
           ) : null}
         </View>
       </View>

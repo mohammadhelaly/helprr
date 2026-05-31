@@ -5,6 +5,8 @@ import {
   type PermissionStatus,
 } from "react-native-vision-camera";
 
+import { i18n } from "@/lib/i18n/i18n";
+
 const toPermissionResponse = (status: PermissionStatus) => ({
   canAskAgain: status === "not-determined",
   granted: status === "authorized",
@@ -15,8 +17,8 @@ const getCameraPermission = async () => {
     return toPermissionResponse(VisionCamera.cameraPermissionStatus);
   } catch {
     Alert.alert(
-      "Error Getting Camera Permission",
-      "An error occurred while trying to get camera permissions. Please try again.",
+      i18n.t("alerts.camera_permission_title"),
+      i18n.t("alerts.camera_permission_text"),
     );
     return null;
   }
@@ -33,8 +35,8 @@ const getMicrophonePermission = async () => {
     return await ExpoSpeechRecognitionModule.getMicrophonePermissionsAsync();
   } catch {
     Alert.alert(
-      "Error Getting Microphone Permission",
-      "An error occurred while trying to get microphone permissions. Please try again.",
+      i18n.t("alerts.microphone_permission_title"),
+      i18n.t("alerts.microphone_permission_text"),
     );
     return null;
   }
@@ -49,8 +51,8 @@ const getSpeechPermission = async () => {
     return await ExpoSpeechRecognitionModule.getPermissionsAsync();
   } catch {
     Alert.alert(
-      "Error Getting Speech Permission",
-      "An error occurred while trying to get speech permissions. Please try again.",
+      i18n.t("alerts.speech_permission_title"),
+      i18n.t("alerts.speech_permission_text"),
     );
     return null;
   }

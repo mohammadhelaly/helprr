@@ -1,6 +1,7 @@
 import { useIsFocused } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { View } from "react-native";
+import { useTranslation } from "react-i18next";
 import {
   initExecutorch,
   isAvailable as isExecutorchAvailable,
@@ -23,6 +24,7 @@ import { DetectionLabel } from "@/components/detection-label";
 import { SeeCameraView } from "@/components/see-camera-view";
 import { Warning } from "@/components/warning";
 import { useSpeechSynthesis } from "@/hooks/use-speech-synthesis";
+import { useAppI18n } from "@/lib/i18n/i18n-provider";
 import { openAppSettings } from "@/lib/permissions/app-permissions";
 
 const MIN_SCORE = 0.75;
@@ -33,14 +35,19 @@ initExecutorch({
   resourceFetcher: ExpoResourceFetcher,
 });
 
+const toObjectLabelKey = (value: string) =>
+  value.toLowerCase().replaceAll(" ", "_");
+
 const toDisplayLabel = (value: string) =>
-  value
+  toObjectLabelKey(value)
     .toLowerCase()
     .split("_")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 
 const SeeScreenContent = () => {
+  const { t } = useTranslation();
+  const { appLanguage } = useAppI18n();
   const isFocused = useIsFocused();
   const device = useCameraDevice("back");
   const { canRequestPermission, hasPermission, requestPermission } =
@@ -55,8 +62,11 @@ const SeeScreenContent = () => {
   const isObjectDetectionReady =
     objectDetection.isReady && !!runObjectDetection;
 
-  const [label, setLabel] = useState<string>();
+  const [labelKey, setLabelKey] = useState<string>();
   const [cameraReady, setCameraReady] = useState(false);
+  const label = labelKey
+    ? t(`objects.${labelKey}`, { defaultValue: toDisplayLabel(labelKey) })
+    : undefined;
 
   const handleCameraPermission = useCallback(async () => {
     if (canRequestPermission) {
@@ -95,8 +105,9 @@ const SeeScreenContent = () => {
       return;
     }
 
-    void speak(label ?? "Loading", "en-US");
+    void speak(label ?? t("see.loading"), appLanguage);
   }, [
+    appLanguage,
     cameraReady,
     device,
     hasPermission,
@@ -105,6 +116,7 @@ const SeeScreenContent = () => {
     label,
     objectDetection.error,
     speak,
+    t,
   ]);
 
   const updateDetections = useCallback(
@@ -115,12 +127,12 @@ const SeeScreenContent = () => {
         return;
       }
 
-      const nextLabel = toDisplayLabel(String(prediction.label));
-      setLabel((currentLabel) =>
-        currentLabel === nextLabel ? currentLabel : nextLabel,
+      const nextLabelKey = toObjectLabelKey(String(prediction.label));
+      setLabelKey((currentLabelKey) =>
+        currentLabelKey === nextLabelKey ? currentLabelKey : nextLabelKey,
       );
     },
-    [setLabel],
+    [setLabelKey],
   );
 
   const frameOutput = useFrameOutput({
@@ -182,11 +194,13 @@ const SeeScreenContent = () => {
       <View className="flex-1 bg-light-grey">
         <Warning
           icon="camera-outline"
-          title="Permission needed"
-          text="Allow camera access to identify objects around you."
+          title={t("see.permission_title")}
+          text={t("see.permission_text")}
         >
           <Button onPress={handleCameraPermission}>
-            {canRequestPermission ? "Grant camera access" : "Open settings"}
+            {canRequestPermission
+              ? t("see.grant_camera_access")
+              : t("common.open_settings")}
           </Button>
         </Warning>
       </View>
@@ -198,8 +212,8 @@ const SeeScreenContent = () => {
       <View className="flex-1 bg-light-grey">
         <Warning
           icon="alert-circle-outline"
-          title="Object detection unavailable"
-          text="This device does not support the native object detection runtime."
+          title={t("see.unavailable_title")}
+          text={t("see.unavailable_runtime")}
         />
       </View>
     );
@@ -210,8 +224,8 @@ const SeeScreenContent = () => {
       <View className="flex-1 bg-light-grey">
         <Warning
           icon="alert-circle-outline"
-          title="Object detection unavailable"
-          text="There was an issue loading the object detection model."
+          title={t("see.unavailable_title")}
+          text={t("see.unavailable_model")}
         />
       </View>
     );
@@ -222,8 +236,8 @@ const SeeScreenContent = () => {
       <View className="flex-1 bg-light-grey">
         <Warning
           icon="camera-outline"
-          title="Camera unavailable"
-          text="No back camera was found on this device."
+          title={t("see.camera_unavailable_title")}
+          text={t("see.camera_unavailable_text")}
         />
       </View>
     );
@@ -236,11 +250,11 @@ const SeeScreenContent = () => {
         frameOutput={frameOutput}
         isActive={isFocused && hasPermission && isObjectDetectionReady}
         onStarted={() => {
-          setLabel(undefined);
+          setLabelKey(undefined);
           setCameraReady(true);
         }}
         onStopped={() => {
-          setLabel(undefined);
+          setLabelKey(undefined);
           setCameraReady(false);
         }}
       />

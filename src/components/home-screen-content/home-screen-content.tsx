@@ -1,9 +1,12 @@
 import { router } from "expo-router";
 import { Image, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/button";
 
 const HomeScreenContent = () => {
+  const { t } = useTranslation();
+
   return (
     <View className="m-4 flex-1 items-center justify-center gap-4">
       <View className="items-center justify-center gap-4">
@@ -16,7 +19,7 @@ const HomeScreenContent = () => {
           Helprr
         </Text>
         <Text className="text-center text-lg text-grey">
-          Your hand held guide dog.
+          {t("common.tagline")}
         </Text>
       </View>
       <View className="my-4 flex-row items-center justify-between gap-4">
@@ -27,7 +30,7 @@ const HomeScreenContent = () => {
           onPress={() => router.push("/listen")}
           textClassName="text-lg"
         >
-          Listen
+          {t("home.listen")}
         </Button>
         <Button
           className="w-[168px] overflow-hidden rounded-lg border-0 px-8 py-4"
@@ -36,7 +39,7 @@ const HomeScreenContent = () => {
           onPress={() => router.push("/see")}
           textClassName="text-lg"
         >
-          See
+          {t("home.see")}
         </Button>
       </View>
     </View>

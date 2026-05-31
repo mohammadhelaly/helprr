@@ -6,12 +6,13 @@ import {
   type ExpoSpeechRecognitionResultEvent,
 } from "expo-speech-recognition";
 
-import type { LanguageLocale } from "@/constants/language";
+import { speechRecognitionLocales } from "@/constants/language";
+import type { LanguageCode } from "@/lib/i18n/i18n";
 
 type RecognitionStatus = "idle" | "listening" | "error" | "permission-denied";
 
 interface Options {
-  language: LanguageLocale;
+  language: LanguageCode;
   onFinalResult: (text: string) => void;
 }
 
@@ -62,7 +63,7 @@ const useSpeechRecognition = (options: Options) => {
     }
 
     ExpoSpeechRecognitionModule.start({
-      lang: options.language,
+      lang: speechRecognitionLocales[options.language],
       interimResults: true,
       maxAlternatives: 1,
       addsPunctuation: true,

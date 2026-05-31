@@ -1,17 +1,15 @@
 import { useCallback, useState } from "react";
 
-import type { LanguageLocale } from "@/constants/language";
-import {
-  getAppLanguagePreference,
-  setAppLanguagePreference,
-} from "@/lib/language/language-preferences";
+import { defaultLanguage, type LanguageCode } from "@/lib/i18n/i18n";
+import { useAppI18n } from "@/lib/i18n/i18n-provider";
 
 const useConversationLanguage = () => {
-  const [language, setLanguage] = useState<LanguageLocale>(
-    getAppLanguagePreference,
+  const { appLanguage } = useAppI18n();
+  const [language, setLanguage] = useState<LanguageCode>(
+    appLanguage ?? defaultLanguage,
   );
 
-  const selectLanguage = useCallback((next: LanguageLocale) => {
+  const selectLanguage = useCallback((next: LanguageCode) => {
     setLanguage(next);
   }, []);
 
@@ -19,16 +17,16 @@ const useConversationLanguage = () => {
 };
 
 const useAppLanguage = () => {
-  const [language, setLanguage] = useState<LanguageLocale>(() =>
-    getAppLanguagePreference(),
+  const { appLanguage, selectAppLanguage } = useAppI18n();
+
+  const selectLanguage = useCallback(
+    (next: LanguageCode) => {
+      void selectAppLanguage(next);
+    },
+    [selectAppLanguage],
   );
 
-  const selectLanguage = useCallback((next: LanguageLocale) => {
-    setAppLanguagePreference(next);
-    setLanguage(next);
-  }, []);
-
-  return { language, selectLanguage };
+  return { language: appLanguage, selectLanguage };
 };
 
 export { useAppLanguage, useConversationLanguage };

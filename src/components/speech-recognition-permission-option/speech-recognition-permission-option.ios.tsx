@@ -1,4 +1,5 @@
 import { SettingsOption } from "@/components/settings-option";
+import { i18n } from "@/lib/i18n/i18n";
 
 type Props = {
   hasPermission: boolean;
@@ -10,8 +11,9 @@ const SpeechRecognitionPermissionOption = (props: Props) => {
 
   return (
     <SettingsOption
-      label="Speech Recognition"
+      label={i18n.t("settings.speech_recognition")}
       trailingIcon={hasPermission ? "checkmark-sharp" : "chevron-forward-sharp"}
+      trailingIconAutoMirror={!hasPermission}
       onPress={onPress}
     />
   );
