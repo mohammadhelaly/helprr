@@ -1,7 +1,7 @@
 import { useIsFocused } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { View } from "react-native";
 import {
   initExecutorch,
   isAvailable as isExecutorchAvailable,
@@ -27,7 +27,7 @@ import { useSpeechSynthesis } from "@/hooks/use-speech-synthesis";
 import { useAppI18n } from "@/lib/i18n/i18n-provider";
 import { openAppSettings } from "@/lib/permissions/app-permissions";
 
-const MIN_SCORE = 0.75;
+const MIN_SCORE = 0.7;
 const OBJECT_DETECTION_INTERVAL_SECONDS = 1;
 const OBJECT_DETECTION_INTERVAL_MS = OBJECT_DETECTION_INTERVAL_SECONDS * 1000;
 
