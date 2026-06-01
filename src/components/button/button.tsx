@@ -2,7 +2,7 @@ import type { ComponentProps, PropsWithChildren } from "react";
 import { Pressable, Text, View } from "react-native";
 
 import { Icon, type IconName } from "@/components/icon";
-import { colors } from "@/constants/theme";
+import { useAppTheme } from "@/lib/theme/theme-provider";
 
 type Props = PropsWithChildren<{
   onPress?: () => void;
@@ -25,12 +25,16 @@ const Button = (props: Props) => {
     textClassName = "",
     ...pressableProps
   } = props;
+  const { colors } = useAppTheme();
 
   const container =
     variant === "primary"
-      ? "bg-black border-black"
-      : "bg-white border-light-grey";
-  const text = variant === "primary" ? "text-white" : "text-black";
+      ? "border-foreground bg-foreground dark:border-foreground-dark dark:bg-foreground-dark"
+      : "border-neutral dark:border-neutral-dark bg-background dark:bg-background-dark";
+  const text =
+    variant === "primary"
+      ? "text-background dark:text-background-dark"
+      : "text-foreground dark:text-foreground-dark";
 
   return (
     <Pressable
@@ -47,7 +51,9 @@ const Button = (props: Props) => {
         {icon ? (
           <Icon
             name={icon}
-            color={variant === "primary" ? colors.white : colors.black}
+            color={
+              variant === "primary" ? colors.background : colors.foreground
+            }
           />
         ) : null}
       </View>

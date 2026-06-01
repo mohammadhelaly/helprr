@@ -12,10 +12,10 @@ const LanguageToggle = (props: Props) => {
 
   return (
     <Pressable
-      className="flex h-10 min-w-10 flex-shrink-0 items-center justify-center rounded-full bg-light-grey"
+      className="flex h-10 min-w-10 flex-shrink-0 items-center justify-center rounded-full bg-neutral dark:bg-neutral-dark"
       onPress={onToggle}
     >
-      <Text className="text-sm font-bold text-black">
+      <Text className="text-sm font-bold text-foreground dark:text-foreground-dark">
         {language.toUpperCase()}
       </Text>
     </Pressable>

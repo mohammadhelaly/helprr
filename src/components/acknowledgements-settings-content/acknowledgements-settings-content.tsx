@@ -17,18 +17,18 @@ const AcknowledgementsSettingsContent = () => {
         // All text in this view is in English, so we want to ensure it's always left-to-right
         style={{ direction: "ltr" }}
       >
-        <Text className="text-start text-sm font-bold text-black">
+        <Text className="text-start text-sm font-bold text-foreground dark:text-foreground-dark">
           {item.name} {item.version}
         </Text>
-        <Text className="text-start text-xs font-semibold text-black">
+        <Text className="text-start text-xs font-semibold text-foreground dark:text-foreground-dark">
           {t("legal.license_label")}: {item.license}
         </Text>
         {item.repository ? (
-          <Text className="text-start text-[8px] text-black">
+          <Text className="text-start text-[8px] text-foreground dark:text-foreground-dark">
             {item.repository}
           </Text>
         ) : null}
-        <Text className="text-start text-[8px] text-black">
+        <Text className="text-start text-[8px] text-foreground dark:text-foreground-dark">
           {item.licenseText || t("legal.license_unavailable")}
         </Text>
       </View>
@@ -38,7 +38,7 @@ const AcknowledgementsSettingsContent = () => {
   return (
     <FlashList
       ListHeaderComponent={
-        <Text className="m-4 text-base font-bold text-black">
+        <Text className="m-4 text-base font-bold text-foreground dark:text-foreground-dark">
           {t("legal.acknowledgements_summary")}
         </Text>
       }

@@ -24,7 +24,7 @@ const ListenScreenContent = () => {
   };
 
   return (
-    <View className="flex-1 items-center justify-center bg-white">
+    <View className="flex-1 items-center justify-center bg-background dark:bg-background-dark">
       <ConversationList
         conversations={conversations}
         onDelete={deleteConversation}
@@ -36,14 +36,20 @@ const ListenScreenContent = () => {
           })
         }
       />
-      <View className="min-h-[50%] w-full items-center justify-center gap-6 bg-white px-4">
-        <Text className="text-start text-lg text-grey">
+      <View className="min-h-[50%] w-full items-center justify-center gap-6 bg-background px-4 dark:bg-background-dark">
+        <Text className="text-start text-lg text-muted dark:text-muted-dark">
           <Trans
             i18nKey="listen.intro"
             components={{
-              conversation: <Text className="font-bold text-pink" />,
-              transcribe: <Text className="font-bold text-black" />,
-              speak: <Text className="font-bold text-black" />,
+              conversation: (
+                <Text className="font-bold text-highlight dark:text-highlight-dark" />
+              ),
+              transcribe: (
+                <Text className="font-bold text-foreground dark:text-foreground-dark" />
+              ),
+              speak: (
+                <Text className="font-bold text-foreground dark:text-foreground-dark" />
+              ),
             }}
           />
         </Text>

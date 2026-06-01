@@ -1,6 +1,6 @@
 import { router } from "expo-router";
-import { Image, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Image, Text, View } from "react-native";
 
 import { Button } from "@/components/button";
 
@@ -12,13 +12,13 @@ const HomeScreenContent = () => {
       <View className="items-center justify-center gap-4">
         <Image
           source={require("@/assets/images/logo.jpg")}
-          className="h-40 w-40 rounded-2xl border-4 border-black"
+          className="h-40 w-40 rounded-2xl border-4 border-foreground bg-background dark:border-foreground-dark dark:bg-background-dark"
           resizeMode="contain"
         />
-        <Text className="text-center text-5xl font-bold text-black">
+        <Text className="text-center text-5xl font-bold text-foreground dark:text-foreground-dark">
           Helprr
         </Text>
-        <Text className="text-center text-lg text-grey">
+        <Text className="text-center text-lg text-muted dark:text-muted-dark">
           {t("common.tagline")}
         </Text>
       </View>

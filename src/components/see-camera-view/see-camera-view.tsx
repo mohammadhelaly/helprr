@@ -22,7 +22,7 @@ const SeeCameraView = (props: Props) => {
 
   return (
     <StyledCamera
-      className="h-full w-full flex-1 bg-light-grey"
+      className="h-full w-full flex-1 bg-neutral dark:bg-neutral-dark"
       device={device}
       isActive={isActive}
       outputs={[frameOutput]}

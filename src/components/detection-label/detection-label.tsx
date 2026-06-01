@@ -1,6 +1,6 @@
 import { ActivityIndicator, Text, View } from "react-native";
 
-import { colors } from "@/constants/theme";
+import { useAppTheme } from "@/lib/theme/theme-provider";
 
 interface Props {
   label?: string;
@@ -8,13 +8,16 @@ interface Props {
 
 const DetectionLabel = (props: Props) => {
   const { label } = props;
+  const { colors } = useAppTheme();
 
   return (
-    <View className="absolute z-10 mt-24 min-h-14 min-w-44 items-center justify-center self-center rounded-lg bg-white p-4">
+    <View className="absolute z-10 mt-24 min-h-14 min-w-44 items-center justify-center self-center rounded-lg bg-background p-4 dark:bg-background-dark">
       {label ? (
-        <Text className="text-lg font-bold text-black">{label}</Text>
+        <Text className="text-lg font-bold text-foreground dark:text-foreground-dark">
+          {label}
+        </Text>
       ) : (
-        <ActivityIndicator color={colors.black} />
+        <ActivityIndicator color={colors.foreground} />
       )}
     </View>
   );

@@ -84,7 +84,7 @@ const PermissionsSettingsContent = () => {
 
   return (
     <View className="flex-1 justify-center">
-      <Text className="self-start px-4 text-start text-base text-grey">
+      <Text className="self-start px-4 text-start text-base text-muted dark:text-muted-dark">
         {t("settings.permissions_intro")}
       </Text>
       <SettingsOption

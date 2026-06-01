@@ -1,10 +1,11 @@
 import { Icon } from "@/components/icon";
 import { LanguageToggle } from "@/components/language-toggle";
 import { VoiceRecordButton } from "@/components/voice-record-button";
-import { colors, sizes } from "@/constants/theme";
+import { sizes } from "@/constants/theme";
 import { useSpeechRecognition } from "@/hooks/use-speech-recognition";
 import { useSpeechSynthesis } from "@/hooks/use-speech-synthesis";
 import { i18n, type LanguageCode } from "@/lib/i18n/i18n";
+import { useAppTheme } from "@/lib/theme/theme-provider";
 import { useState } from "react";
 import { Platform, Pressable, TextInput, View } from "react-native";
 
@@ -19,6 +20,7 @@ const ConversationInput = (props: Props) => {
   const { language, onToggleLanguage, onAddTextToSpeech, onAddSpeechToText } =
     props;
   const direction = i18n.dir(language);
+  const { colors } = useAppTheme();
 
   const [message, setMessage] = useState("");
   const { speak } = useSpeechSynthesis();
@@ -37,7 +39,7 @@ const ConversationInput = (props: Props) => {
   };
 
   return (
-    <View className="relative flex min-h-16 flex-row items-center gap-3 bg-white px-4 py-2">
+    <View className="relative flex min-h-16 flex-row items-center gap-3 bg-background px-4 py-2 dark:bg-background-dark">
       <VoiceRecordButton
         isListening={recognition.isListening}
         errorMessage={recognition.errorMessage}
@@ -47,20 +49,21 @@ const ConversationInput = (props: Props) => {
       />
       <LanguageToggle language={language} onToggle={onToggleLanguage} />
       <TextInput
-        className={`min-h-10 flex-1 rounded-3xl border border-light-grey bg-light-grey px-4 ${Platform.OS === "ios" ? "py-auto" : "py-0"} text-base text-black ${direction === "rtl" ? "text-end" : "text-start"}`}
+        className={`min-h-10 flex-1 rounded-3xl border border-neutral bg-neutral px-4 dark:border-neutral-dark dark:bg-neutral-dark ${Platform.OS === "ios" ? "py-auto" : "py-0"} text-base text-foreground dark:text-foreground-dark ${direction === "rtl" ? "text-end" : "text-start"}`}
         multiline
+        placeholderTextColor={colors.muted}
         value={message}
         onChangeText={setMessage}
       />
       <Pressable
-        className="h-10 w-10 items-center justify-center rounded-full bg-black"
+        className="h-10 w-10 items-center justify-center rounded-full bg-foreground dark:bg-foreground-dark"
         onPress={send}
       >
         <Icon
           name="arrow-forward-sharp"
           autoMirror
           size={sizes.icon.sm}
-          color={colors.white}
+          color={colors.background}
         />
       </Pressable>
     </View>

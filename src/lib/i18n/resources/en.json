@@ -73,6 +73,11 @@
     "rate_helprr": "Rate Helprr",
     "share_helprr": "Share Helprr"
   },
+  "appearance": {
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  },
   "language": {
     "en": "English",
     "ar": "Arabic"

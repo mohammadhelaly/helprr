@@ -9,10 +9,12 @@ const LicenseSettingsContent = () => {
   return (
     <ScrollView className="flex-1" contentContainerClassName="items-center">
       <View className="w-full max-w-screen-sm px-4">
-        <Text className="my-4 text-base font-bold text-black">
+        <Text className="my-4 text-base font-bold text-foreground dark:text-foreground-dark">
           {t("legal.license_summary")}
         </Text>
-        <Text className="mb-2 text-xs text-black">{licenseData}</Text>
+        <Text className="mb-2 text-xs text-foreground dark:text-foreground-dark">
+          {licenseData}
+        </Text>
       </View>
     </ScrollView>
   );

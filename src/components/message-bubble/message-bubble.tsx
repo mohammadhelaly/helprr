@@ -4,8 +4,9 @@ import Animated, { FadeInDown } from "react-native-reanimated";
 
 import { EditableText } from "@/components/editable-text";
 import { Icon } from "@/components/icon";
-import { colors, sizes } from "@/constants/theme";
+import { sizes } from "@/constants/theme";
 import type { Message } from "@/lib/db/schema";
+import { useAppTheme } from "@/lib/theme/theme-provider";
 import { formatTime } from "@/lib/utils/date-time";
 
 interface Props {
@@ -23,6 +24,7 @@ const bubbleEntering = FadeInDown.duration(200)
 
 const MessageBubble = (props: Props) => {
   const { message, isSpeaking, onEdit, onSpeak } = props;
+  const { colors } = useAppTheme();
   const [isEditing, setIsEditing] = useState(false);
   const [draftBody, setDraftBody] = useState(message.body);
 
@@ -46,7 +48,9 @@ const MessageBubble = (props: Props) => {
     setIsEditing(true);
   };
   const textClassName = `font-bold ${
-    isSpeechToText ? "text-2xl text-pink" : "text-lg text-black"
+    isSpeechToText
+      ? "text-2xl text-highlight dark:text-highlight-dark"
+      : "text-lg text-foreground dark:text-foreground-dark"
   } ${message.direction === "rtl" ? "text-end" : "text-start"}`;
 
   return (
@@ -55,12 +59,12 @@ const MessageBubble = (props: Props) => {
       className={`my-2 px-4 ${isSpeechToText ? "items-start" : "items-end"}`}
     >
       <View
-        className={`relative flex w-3/5 flex-col gap-4 rounded-2xl bg-white p-4 ${
+        className={`relative flex w-3/5 flex-col gap-4 rounded-2xl bg-background p-4 dark:bg-background-dark ${
           isSpeechToText ? "self-start" : "self-end"
         }`}
       >
         <View
-          className={`absolute bottom-6 h-4 w-4 rotate-45 bg-white ${
+          className={`absolute bottom-6 h-4 w-4 rotate-45 bg-background dark:bg-background-dark ${
             isSpeechToText ? "-left-2" : "-right-2"
           }`}
         />
@@ -88,10 +92,10 @@ const MessageBubble = (props: Props) => {
                     : "play-outline"
               }
               size={sizes.icon.xs}
-              color={colors.grey}
+              color={colors.muted}
             />
           </Pressable>
-          <Text className="text-xs text-grey">
+          <Text className="text-xs text-muted dark:text-muted-dark">
             {formatTime(message.createdAt)}
           </Text>
         </View>

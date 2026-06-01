@@ -10,8 +10,9 @@ import Animated, {
 import { scheduleOnRN } from "react-native-worklets";
 
 import { Icon } from "@/components/icon";
-import { colors, sizes } from "@/constants/theme";
+import { sizes, colors as themeColors } from "@/constants/theme";
 import { useNavigationChrome } from "@/hooks/use-navigation-chrome";
+import { useAppTheme } from "@/lib/theme/theme-provider";
 
 interface Props {
   isListening: boolean;
@@ -29,22 +30,28 @@ const recordGestureHitSlop = sizes.spacing.sm;
 const recordGestureMinDistance = sizes.spacing.xs;
 
 const recordHoldDuration = 100;
-const recordBottomOffset = sizes.spacing.xxxl;
+const recordBottomOffset = sizes.spacing["3xl"];
 const recordTopGap = sizes.spacing.md;
 
 const recordPulse: CSSAnimationKeyframes = {
-  from: { backgroundColor: colors.pink, transform: [{ scale: 1 }] },
-  to: { backgroundColor: colors["pink-light"], transform: [{ scale: 1.1 }] },
+  from: {
+    backgroundColor: themeColors["hot-pink"],
+    transform: [{ scale: 1 }],
+  },
+  to: {
+    backgroundColor: themeColors.bubblegum,
+    transform: [{ scale: 1.1 }],
+  },
 };
 
 const recordHazePulse: CSSAnimationKeyframes = {
   from: {
-    backgroundColor: colors.pink,
+    backgroundColor: themeColors["hot-pink"],
     opacity: 0.2,
     transform: [{ scale: 0.8 }],
   },
   to: {
-    backgroundColor: colors["pink-haze"],
+    backgroundColor: themeColors["cotton-candy"],
     opacity: 0.4,
     transform: [{ scale: 1 }],
   },
@@ -56,12 +63,20 @@ const statusExiting = FadeOut.duration(200);
 const VoiceRecordButton = (props: Props) => {
   const { isListening, errorMessage, partialTranscript, onStart, onStop } =
     props;
+  const { colors } = useAppTheme();
   const { height: screenHeight, width: screenWidth } = useWindowDimensions();
   const { verticalChromeHeight } = useNavigationChrome();
 
   const statusText = errorMessage ?? partialTranscript;
+  const recordButtonClassName = isListening
+    ? "bg-hot-pink"
+    : errorMessage
+      ? "bg-error"
+      : "bg-foreground dark:bg-foreground-dark";
+  const recordIconColor =
+    isListening || errorMessage ? colors.accent : colors.background;
 
-  const buttonSize = isListening ? sizes.sizing.xl : sizes.sizing.md;
+  const buttonSize = isListening ? sizes.spacing["5xl"] : sizes.spacing["2xl"];
   const iconSize = isListening ? sizes.icon.xl : sizes.icon.md;
   const pulseStyle = {
     animationDelay: isListening ? recordTransitionDuration : 0,
@@ -72,8 +87,8 @@ const VoiceRecordButton = (props: Props) => {
   };
   const statusGap = isListening ? sizes.spacing.lg : sizes.spacing.xs;
 
-  const controlHeight = sizes.sizing.sm + statusGap + buttonSize;
-  const controlWidth = Math.max(buttonSize, sizes.sizing.xxl);
+  const controlHeight = sizes.spacing.xl + statusGap + buttonSize;
+  const controlWidth = Math.max(buttonSize, sizes.spacing["6xl"]);
   const horizontalLimit = (screenWidth - controlWidth) / 2;
   const minX = -horizontalLimit;
   const maxX = horizontalLimit;
@@ -145,7 +160,7 @@ const VoiceRecordButton = (props: Props) => {
     >
       <View
         className="items-center justify-center"
-        style={{ height: sizes.sizing.sm }}
+        style={{ height: sizes.spacing.xl }}
       >
         {statusText ? (
           <Animated.View
@@ -173,12 +188,12 @@ const VoiceRecordButton = (props: Props) => {
           <Animated.View
             className="absolute items-center justify-center"
             style={{
-              height: sizes.sizing.xxl,
+              height: sizes.spacing["6xl"],
               opacity: isListening ? 1 : 0,
               transitionDuration: recordHazeTransitionDuration,
               transitionProperty: ["opacity"],
               transitionTimingFunction: "ease-out",
-              width: sizes.sizing.xxl,
+              width: sizes.spacing["6xl"],
             }}
           >
             <Animated.View
@@ -190,9 +205,7 @@ const VoiceRecordButton = (props: Props) => {
             />
           </Animated.View>
           <Animated.View
-            className={`flex items-center justify-center rounded-full ${
-              isListening ? "bg-pink" : errorMessage ? "bg-red-600" : "bg-black"
-            }`}
+            className={`flex items-center justify-center rounded-full ${recordButtonClassName}`}
             style={{
               ...pulseStyle,
               animationName: isListening ? recordPulse : "none",
@@ -203,7 +216,7 @@ const VoiceRecordButton = (props: Props) => {
               width: buttonSize,
             }}
           >
-            <Icon name="mic-sharp" size={iconSize} color={colors.white} />
+            <Icon name="mic-sharp" size={iconSize} color={recordIconColor} />
           </Animated.View>
         </Animated.View>
       </GestureDetector>

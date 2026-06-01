@@ -81,7 +81,7 @@ const ConversationScreenContent = (props: Props) => {
         }}
       />
       <KeyboardAvoidingView
-        className="flex-1 bg-light-grey"
+        className="flex-1 bg-neutral dark:bg-neutral-dark"
         behavior="padding"
         // Same height as the header to ensure the input is fully visible when the keyboard is open
         // This value means: how far from the top of the screen your app content starts before keyboard avoidance should begin
@@ -121,7 +121,7 @@ const ConversationScreenContent = (props: Props) => {
                 <>
                   {shouldShowDate ? (
                     <View className="mb-4 mt-2 items-center">
-                      <Text className="rounded-full bg-white/60 px-4 py-1 text-xs text-grey">
+                      <Text className="rounded-full bg-background px-4 py-1 text-xs text-muted dark:bg-background-dark dark:text-muted-dark">
                         {formatDate(item.createdAt)}
                       </Text>
                     </View>

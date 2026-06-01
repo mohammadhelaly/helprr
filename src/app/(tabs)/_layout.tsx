@@ -2,24 +2,26 @@ import { Tabs } from "expo-router";
 import { useTranslation } from "react-i18next";
 
 import { Icon } from "@/components/icon";
-import { colors, sizes } from "@/constants/theme";
+import { sizes } from "@/constants/theme";
+import { useAppTheme } from "@/lib/theme/theme-provider";
 
 const TabsLayout = () => {
   const { t } = useTranslation();
+  const { colors } = useAppTheme();
 
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: colors.black,
-        tabBarInactiveTintColor: colors.grey,
+        tabBarActiveTintColor: colors.foreground,
+        tabBarInactiveTintColor: colors.muted,
         tabBarStyle: {
-          height: sizes.sizing.lg,
+          height: sizes.spacing["4xl"],
           paddingTop: sizes.spacing.sm,
           paddingBottom: sizes.spacing.md,
-          borderTopWidth: sizes.sizing.none,
-          elevation: sizes.sizing.none,
-          backgroundColor: colors.white,
+          borderTopWidth: sizes.spacing.none,
+          elevation: sizes.spacing.none,
+          backgroundColor: colors.background,
         },
       }}
     >
@@ -31,7 +33,7 @@ const TabsLayout = () => {
             <Icon
               name="home-sharp"
               size={sizes.icon.sm}
-              color={focused ? colors.black : colors.grey}
+              color={focused ? colors.foreground : colors.muted}
             />
           ),
         }}
@@ -44,7 +46,7 @@ const TabsLayout = () => {
             <Icon
               name="ear-sharp"
               size={sizes.icon.sm}
-              color={focused ? colors.black : colors.grey}
+              color={focused ? colors.foreground : colors.muted}
             />
           ),
         }}
@@ -57,7 +59,7 @@ const TabsLayout = () => {
             <Icon
               name="eye-sharp"
               size={sizes.icon.sm}
-              color={focused ? colors.black : colors.grey}
+              color={focused ? colors.foreground : colors.muted}
             />
           ),
         }}
@@ -70,7 +72,7 @@ const TabsLayout = () => {
             <Icon
               name="settings-sharp"
               size={sizes.icon.sm}
-              color={focused ? colors.black : colors.grey}
+              color={focused ? colors.foreground : colors.muted}
             />
           ),
         }}

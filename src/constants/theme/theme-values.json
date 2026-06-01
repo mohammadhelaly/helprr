@@ -2,12 +2,16 @@
   "colors": {
     "white": "#ffffff",
     "black": "#000000",
-    "grey": "grey",
-    "light-grey": "#eeeeee",
-    "pink": "#ff69b4",
-    "pink-haze": "#ffb3d9",
-    "pink-light": "#ff9ccd",
-    "cyan": "#00cccc"
+    "stone": "#707070",
+    "mist": "#eeeeee",
+    "hot-pink": "#ff69b4",
+    "cotton-candy": "#ffb3d9",
+    "bubblegum": "#ff9ccd",
+    "red": "#dc2626",
+    "charcoal": "#222222",
+    "graphite": "#333333",
+    "snow": "#f6f7fb",
+    "steel": "#aab2c0"
   },
   "sizes": {
     "icon": {
@@ -15,29 +19,28 @@
       "xs": 18,
       "sm": 24,
       "md": 32,
-      "lg": 44,
       "xl": 48
     },
-    "font": {
+    "fontSize": {
       "lg": 18,
-      "xl": 24,
-      "xxxl": 36,
-      "xxxxl": 52
+      "4xl": 36
     },
-    "sizing": {
-      "none": 0,
-      "sm": 48,
-      "md": 64,
-      "lg": 96,
-      "xl": 128,
-      "xxl": 176
+    "lineHeight": {
+      "xl": 24,
+      "4xl": 52
     },
     "spacing": {
+      "none": 0,
       "xs": 8,
       "sm": 12,
       "md": 16,
       "lg": 24,
-      "xxxl": 80
+      "xl": 48,
+      "2xl": 64,
+      "3xl": 80,
+      "4xl": 96,
+      "5xl": 128,
+      "6xl": 176
     }
   }
 }

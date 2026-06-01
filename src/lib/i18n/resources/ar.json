@@ -68,6 +68,11 @@
     "rate_helprr": "قيّم Helprr",
     "share_helprr": "شارك Helprr"
   },
+  "appearance": {
+    "system": "النظام",
+    "light": "فاتح",
+    "dark": "داكن"
+  },
   "language": {
     "en": "الإنجليزية",
     "ar": "العربية"

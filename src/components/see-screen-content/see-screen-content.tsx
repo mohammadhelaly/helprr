@@ -191,7 +191,7 @@ const SeeScreenContent = () => {
 
   if (!hasPermission) {
     return (
-      <View className="flex-1 bg-light-grey">
+      <View className="flex-1 bg-neutral dark:bg-neutral-dark">
         <Warning
           icon="camera-outline"
           title={t("see.permission_title")}
@@ -209,7 +209,7 @@ const SeeScreenContent = () => {
 
   if (!isExecutorchAvailable) {
     return (
-      <View className="flex-1 bg-light-grey">
+      <View className="flex-1 bg-neutral dark:bg-neutral-dark">
         <Warning
           icon="alert-circle-outline"
           title={t("see.unavailable_title")}
@@ -221,7 +221,7 @@ const SeeScreenContent = () => {
 
   if (objectDetection.error) {
     return (
-      <View className="flex-1 bg-light-grey">
+      <View className="flex-1 bg-neutral dark:bg-neutral-dark">
         <Warning
           icon="alert-circle-outline"
           title={t("see.unavailable_title")}
@@ -233,7 +233,7 @@ const SeeScreenContent = () => {
 
   if (!device) {
     return (
-      <View className="flex-1 bg-light-grey">
+      <View className="flex-1 bg-neutral dark:bg-neutral-dark">
         <Warning
           icon="camera-outline"
           title={t("see.camera_unavailable_title")}
