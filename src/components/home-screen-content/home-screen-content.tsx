@@ -3,16 +3,21 @@ import { useTranslation } from "react-i18next";
 import { Image, Text, View } from "react-native";
 
 import { Button } from "@/components/button";
+import { useAppTheme } from "@/lib/theme/theme-provider";
+
+const homeIcon = require("@/assets/images/home-icon.png");
+const homeIconDark = require("@/assets/images/home-icon-dark.png");
 
 const HomeScreenContent = () => {
   const { t } = useTranslation();
+  const { colorScheme } = useAppTheme();
 
   return (
     <View className="m-4 flex-1 items-center justify-center gap-4">
       <View className="items-center justify-center gap-4">
         <Image
-          source={require("@/assets/images/logo.jpg")}
-          className="h-40 w-40 rounded-2xl border-4 border-foreground bg-background dark:border-foreground-dark"
+          source={colorScheme === "dark" ? homeIconDark : homeIcon}
+          className="mb-2 h-40 w-40 rounded-2xl border-4 border-foreground bg-background p-6 dark:border-foreground-dark dark:bg-background-dark"
           resizeMode="contain"
         />
         <Text className="text-center text-5xl font-bold text-foreground dark:text-foreground-dark">
