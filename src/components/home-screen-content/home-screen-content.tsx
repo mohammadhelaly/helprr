@@ -12,11 +12,11 @@ const HomeScreenContent = () => {
       <View className="items-center justify-center gap-4">
         <Image
           source={require("@/assets/images/logo.jpg")}
-          className="h-40 w-40 rounded-2xl border-4 border-foreground bg-background dark:border-foreground-dark dark:bg-background-dark"
+          className="h-40 w-40 rounded-2xl border-4 border-foreground bg-background dark:border-foreground-dark"
           resizeMode="contain"
         />
         <Text className="text-center text-5xl font-bold text-foreground dark:text-foreground-dark">
-          Helprr
+          {t("common.app_name")}
         </Text>
         <Text className="text-center text-lg text-muted dark:text-muted-dark">
           {t("common.tagline")}
