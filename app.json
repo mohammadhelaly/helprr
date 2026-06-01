@@ -3,6 +3,7 @@
     "name": "Helprr",
     "slug": "helprr",
     "version": "1.0.0",
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "helprr",
@@ -26,10 +27,6 @@
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.mohammadhelaly.helprr",
       "predictiveBackGestureEnabled": false,
       "permissions": ["android.permission.CAMERA"]
-    },
-    "web": {
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
       "expo-router",
