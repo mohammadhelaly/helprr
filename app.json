@@ -5,23 +5,28 @@
     "version": "1.0.0",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/brand/app-icon.png",
     "scheme": "helprr",
     "userInterfaceStyle": "automatic",
     "ios": {
       "bundleIdentifier": "com.mohammadhelaly.helprr",
-      "icon": "./assets/expo.icon",
+      "icon": {
+        "light": "./assets/brand/ios/app-icon-light.png",
+        "dark": "./assets/brand/ios/app-icon-dark.png",
+        "tinted": "./assets/brand/ios/app-icon-tinted.png"
+      },
       "supportsTablet": true,
       "infoPlist": {
         "NSCameraUsageDescription": "Allow Helprr to access your camera."
       }
     },
     "android": {
+      "icon": "./assets/brand/android/app-icon-legacy.png",
       "adaptiveIcon": {
-        "backgroundColor": "#eeeeee",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+        "backgroundColor": "#ffffff",
+        "foregroundImage": "./assets/brand/android/adaptive-icon-foreground.png",
+        "backgroundImage": "./assets/brand/android/adaptive-icon-background.png",
+        "monochromeImage": "./assets/brand/android/adaptive-icon-monochrome.png"
       },
       "package": "com.mohammadhelaly.helprr",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.mohammadhelaly.helprr",
@@ -34,16 +39,33 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#ff69b4",
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 76,
+          "backgroundColor": "#ffffff",
+          "image": "./assets/brand/splash/splash-icon-light.png",
+          "imageWidth": 168,
+          "resizeMode": "contain",
           "dark": {
-            "backgroundColor": "#222222",
-            "image": "./assets/images/splash-icon.png"
+            "backgroundColor": "#191919",
+            "image": "./assets/brand/splash/splash-icon-dark.png"
           },
           "android": {
-            "image": "./assets/images/splash-icon.png",
-            "imageWidth": 76
+            "backgroundColor": "#ffffff",
+            "image": "./assets/brand/splash/splash-icon-light.png",
+            "imageWidth": 168,
+            "resizeMode": "contain",
+            "dark": {
+              "backgroundColor": "#191919",
+              "image": "./assets/brand/splash/splash-icon-dark.png"
+            }
+          },
+          "ios": {
+            "backgroundColor": "#ffffff",
+            "image": "./assets/brand/splash/splash-icon-light.png",
+            "imageWidth": 168,
+            "resizeMode": "contain",
+            "dark": {
+              "backgroundColor": "#191919",
+              "image": "./assets/brand/splash/splash-icon-dark.png"
+            }
           }
         }
       ],

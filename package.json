@@ -58,7 +58,6 @@
   "scripts": {
     "start": "expo start",
     "postinstall": "patch-package",
-    "reset-project": "node ./scripts/reset-project.js",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "legal:generate": "node ./scripts/generate-open-source-notice-data.js",
