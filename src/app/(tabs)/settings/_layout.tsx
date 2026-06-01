@@ -46,6 +46,10 @@ const SettingsLayout = () => {
         options={{ title: t("navigation.general") }}
       />
       <Stack.Screen
+        name="appearance"
+        options={{ title: t("settings.appearance") }}
+      />
+      <Stack.Screen
         name="permissions"
         options={{ title: t("navigation.permissions") }}
       />
