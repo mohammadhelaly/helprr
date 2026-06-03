@@ -3,7 +3,7 @@ const appUrls = {
     "market://details?id=com.mohammadhelaly.helprr&showAllReviews=true",
   playStoreReview:
     "https://play.google.com/store/apps/details?id=com.mohammadhelaly.helprr&showAllReviews=true",
-  repository: "https://github.com/MohammadHelaly/helprr",
+  repository: "https://github.com/mohammadhelaly/helprr",
   website: "https://helaly.vercel.app",
 };
 
