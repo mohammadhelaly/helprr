@@ -4,29 +4,31 @@ A mobile app designed to support blind and deaf people, developed using React Na
 
 ## Project Status
 
-There is no production deployment, app store release, EAS build setup, CI pipeline, crash reporting, analytics, public legal website, or hosted support destination yet. Development should use Expo development builds because the app depends on native modules that are not available in Expo Go.
+Helprr is in development. It is not published to the App Store, Google Play, Expo Application Services channels, or any production release target.
+
+There is currently no checked-in `eas.json`, production EAS project setup, CI pipeline, or public legal/support website dedicated to the app.
 
 ## Tech Stack
 
-- Expo SDK 56, React Native 0.85, React 19, and React Native Web 0.21.
+- Expo SDK 56, React Native 0.85, and React 19.
 - Expo Router file-based routing under `src/app`.
 - TypeScript with Expo's base TypeScript configuration.
 - NativeWind and Tailwind CSS for styling.
 - Expo SQLite and Drizzle ORM for local persistence.
 - Expo Speech Recognition for speech-to-text.
 - Expo Speech for text-to-speech playback.
-- i18next and React i18next for English/Arabic UI localization.
+- i18next and React i18next for English/Arabic localization.
 - React Native Vision Camera for camera preview and frame output.
-- React Native Executorch for on-device object detection.
-- `patch-package` for temporary dependency compatibility patches.
+- React Native ExecuTorch for on-device object detection.
+- `patch-package` for temporary native dependency compatibility patches.
 
-Expo SDK 56 targets Node 22.13.x or newer according to the Expo SDK 56 docs. Use the SDK 56 documentation when changing Expo, React Native, native modules, or app config: https://docs.expo.dev/versions/v56.0.0/
+Expo SDK 56 targets Node 22.13.x or newer. Use the SDK 56 documentation when changing Expo, React Native, native modules, or app config: https://docs.expo.dev/versions/v56.0.0/
 
 ## Project Structure
 
 ```text
-|-- assets/                         # Expo app icons and image assets
-|-- patches/                        # patch-package patches applied after npm install
+|-- assets/                         # App icons, splash assets, and images
+|-- patches/                        # patch-package patches applied after install
 |-- scripts/                        # Project maintenance scripts
 |-- src/
 |   |-- app/                        # Expo Router route tree
@@ -38,8 +40,8 @@ Expo SDK 56 targets Node 22.13.x or newer according to the Expo SDK 56 docs. Use
 |   |-- components/                 # Shared UI and feature components
 |   |-- constants/                  # Theme, language, and URL constants
 |   |-- data/                       # Legal text and generated OSS notice data
-|   |-- hooks/                      # Speech, language, and chat hooks
-|   |-- lib/                        # Database, permissions, platform, share, and utility code
+|   |-- hooks/                      # Speech, language, navigation, and chat hooks
+|   |-- lib/                        # Database, i18n, permissions, platform, share, and utilities
 |   |-- types/                      # Local type declarations
 |   `-- global.css                  # NativeWind/Tailwind global CSS
 |-- app.json                        # Expo app config, permissions, plugins, and identifiers
@@ -55,9 +57,9 @@ Expo SDK 56 targets Node 22.13.x or newer according to the Expo SDK 56 docs. Use
 ## Prerequisites
 
 - Node.js 22.13.x or newer.
-- npm. The repository includes `package-lock.json`, so npm is the expected package manager.
+- npm. This repository includes `package-lock.json`, so npm is the expected package manager.
 - Expo CLI through `npx expo`.
-- Android Studio, Android SDK, and a configured emulator or physical Android device.
+- Android Studio, Android SDK, and a configured emulator or physical Android device for Android development.
 - Xcode on macOS for iOS development builds.
 - Physical Android and iOS devices are recommended for release confidence. Speech recognition, speech playback, camera, and object detection should not be signed off using simulators alone.
 
@@ -104,7 +106,7 @@ Use a development build, not Expo Go. Native modules such as speech recognition,
 npm run android
 ```
 
-This runs `expo run:android` against the checked-in Android project. Use this when native dependencies, app config, Android permissions, or patches change.
+This runs `expo run:android`. Because native Android files are not checked in, Expo may generate the native project locally during the run. Use this when native dependencies, app config, Android permissions, or patches change.
 
 ### 5. Build and run iOS locally
 
@@ -112,17 +114,9 @@ This runs `expo run:android` against the checked-in Android project. Use this wh
 npm run ios
 ```
 
-This runs `expo run:ios` against the checked-in iOS project. Use this when native dependencies, app config, iOS permissions, or patches change.
+This runs `expo run:ios` on macOS. Because native iOS files are not checked in, Expo may generate the native project locally during the run. Use this when native dependencies, app config, iOS permissions, or patches change.
 
-### 6. Run the web target when useful
-
-```bash
-npm run web
-```
-
-The app has a web target, but native-module-dependent flows are mobile-first. Use web mainly for route/layout smoke checks unless a feature is explicitly designed for web.
-
-### 7. Update generated legal notices after dependency changes
+### 6. Update generated legal notices after dependency changes
 
 Whenever `package.json` or `package-lock.json` changes:
 
@@ -133,13 +127,28 @@ npm run legal:check
 
 Commit the regenerated `src/data/legal/generated/open-source-notice-data.ts` with the dependency change.
 
-### 8. Generate Drizzle schema files only when needed
+### 7. Generate Drizzle schema files only when needed
 
 ```bash
 npm run db:generate
 ```
 
-The runtime database bootstrap currently creates the SQLite tables directly in `src/lib/db/client.ts`. If the schema evolves, align the runtime migration path, generated Drizzle output, and any release notes before shipping.
+The runtime database bootstrap currently creates the SQLite tables directly in `src/lib/db/client.ts`. If the schema evolves, align the runtime migration path, generated Drizzle output, and release notes before shipping.
+
+## Core Scripts
+
+```text
+npm start             # expo start
+npm run android       # expo run:android
+npm run ios           # expo run:ios
+npm run format        # prettier --write .
+npm run format:check  # prettier --check .
+npm run lint          # expo lint
+npm run typecheck     # tsc --noEmit
+npm run legal:generate
+npm run legal:check
+npm run db:generate
+```
 
 ## Dependency Patches
 
@@ -158,38 +167,23 @@ Keep this patch until NativeWind / CSS interop provides an upstream version comp
 - Changes Android `ImageProxy.getPixelBuffer()` to prefer the CPU-readable single-plane buffer for RGB/RGBA frame outputs before trying the hardware-buffer path.
 - This supports the app's Vision Camera frame-output pipeline and reduces failures around hardware-buffer locking for object detection frames.
 
-Re-test this patch whenever Vision Camera, Android camera output settings, or Executorch frame processing changes.
+Re-test this patch whenever Vision Camera, Android camera output settings, or ExecuTorch frame processing changes.
 
 ### `react-native-executorch@0.8.4`
 
 - Changes the computer-vision worklet bridge to pass `frame.getPixelBuffer()`, `width`, `height`, and `bytesPerRow` instead of `frame.getNativeBuffer()`.
 - Updates the native C++ frame extractor to accept either `nativeBuffer` or `pixelBuffer`.
-- This aligns Executorch object detection with the Vision Camera frame output used by Helprr.
+- This aligns ExecuTorch object detection with the Vision Camera frame output used by Helprr.
 
-Treat this as a compatibility patch. Before production, either replace it with an upstream fix, vendor-reviewed fork, or a documented long-term patch policy.
-
-## Core Scripts
-
-```text
-npm start             # expo start
-npm run android       # expo run:android
-npm run ios           # expo run:ios
-npm run web           # expo start --web
-npm run format        # prettier --write .
-npm run format:check  # prettier --check .
-npm run lint          # expo lint
-npm run typecheck     # tsc --noEmit
-npm run legal:generate
-npm run legal:check
-npm run db:generate
-```
+Treat this as a compatibility patch. Before production, either replace it with an upstream fix, vendor-reviewed fork, or documented long-term patch policy.
 
 ## Development Notes
 
+- The app currently targets iOS and Android through `app.json`.
 - The Listen flow stores conversations and messages locally in Expo SQLite.
 - Conversation messages support English and Arabic language metadata.
 - The app UI is localized in English and Arabic through `src/lib/i18n/resources`.
-- The app language preference is stored locally in SQLite and is initialized from the stored preference or the device locale.
+- The app language preference is stored locally in SQLite and initialized from the stored preference or device locale.
 - Arabic switches the app to RTL with React Native `I18nManager`; direction changes require an app reload so native RTL layout flags are applied consistently.
 - Directional icons opt into RTL mirroring through the shared `Icon` wrapper's `autoMirror` prop.
 - Speech recognition requests permission from the feature flow.
@@ -203,24 +197,25 @@ There is no deployment yet.
 
 The app has not been published to the App Store, Google Play, Expo Application Services channels, or any other production release target. Future deployment work needs production Expo/EAS configuration, app signing, release profiles, store assets, privacy disclosures, legal review, and full physical-device testing.
 
-Recommended future EAS direction:
+Future deployment should use an Expo Application Services release process:
 
-- create `eas.json` with `development`, `preview`, and `production` build profiles,
-- use internal distribution for preview builds,
-- use EAS Submit when store credentials and metadata are ready,
-- use EAS Update only with a clear runtime-version policy,
-- avoid OTA updates for changes involving native modules, app config, permissions, patches, model binaries, or dependency changes that alter native code.
+- Add `eas.json` with `development`, `preview`, and `production` build profiles.
+- Use EAS Build for Android and iOS binaries.
+- Use internal distribution for preview builds.
+- Use EAS Submit when store credentials and metadata are ready.
+- Use Expo Launch from GitHub when the app is ready for guided store launch work.
+- Use EAS Workflows only after local EAS builds are successful and credentials are configured.
+- Use EAS Update only with a clear runtime-version policy.
+- Avoid OTA updates for changes involving native modules, app config, permissions, patches, model binaries, or dependency changes that alter native code.
 
 ## Future Improvements and Production Readiness
 
 ### Product and feature readiness
 
-- Finish and validate the core accessibility workflows with real users where possible.
+- Validate the core accessibility workflows with real users where possible.
 - Decide whether See/object detection is a production feature or a beta/experimental feature.
-- Add clear in-app affordances for deleting local conversation history.
-- Implement full UI localization if Arabic support is part of the release promise.
-- Review all copy for accessibility, safety, medical, emergency, navigation, and reliability claims.
-- Add onboarding or first-run education only if it improves permission timing and user understanding.
+- Review accessibility, safety, medical, emergency, navigation, and reliability claims.
+- Add onboarding or first-run education to improve permission timing and user understanding.
 
 ### Native and device readiness
 
@@ -265,7 +260,11 @@ This section is an engineering checklist, not legal advice. Before publishing He
 ### Required ownership and contact details
 
 - Decide the legal publisher identity: individual name, company name, address country, support email, privacy email, and legal email.
-- Replace all placeholder legal contact values in `src/data/legal/legal-document-data.ts`.
+- Create a production support/privacy/legal email before release, preferably on the final app or publisher domain.
+- Replace the current personal contact email, `mohammad.helaly@outlook.com`, anywhere it appears in `src/data/legal/legal-document-data.ts`, store metadata, public policy pages, support pages, and release materials.
+- Create a production public site before release with support, Privacy Policy, Terms of Use, and contact information.
+- Replace the current personal site, `https://helaly.vercel.app`, anywhere it appears in app legal content, store metadata, website links, support URLs, Privacy Policy URLs, Terms URLs, and release materials.
+- Review all legal document text in `src/data/legal/legal-document-data.ts` before release and keep the in-app text aligned with the production email, production site, public policies, and store disclosures.
 - Create a public support/contact destination for store listings, such as a support page or monitored support email.
 - Decide whether the app is published by an individual or legal entity and make sure that matches Apple Developer, Google Play Console, website, privacy policy, and terms.
 
@@ -284,7 +283,7 @@ This section is an engineering checklist, not legal advice. Before publishing He
 - Keep `Settings -> Legal -> Safety Notice` available because Helprr is an accessibility-support app and should clearly state its limitations.
 - Keep `Settings -> Legal -> License` available for Helprr's MIT license.
 - Keep `Settings -> Legal -> Acknowledgements` available for third-party open-source notices.
-- Remove internal-only checklists, such as store disclosure notes, from production user-facing navigation unless intentionally shipping them.
+- Update and thoroughly review all legal content.
 
 ### Open-source licensing and attribution
 
@@ -302,18 +301,8 @@ This section is an engineering checklist, not legal advice. Before publishing He
 - Confirm whether speech recognition audio or transcripts leave the device on iOS and Android during real physical-device testing.
 - Confirm whether text-to-speech processing is fully on-device or uses any OS/provider network service.
 - Confirm whether object detection frames stay on-device and whether any model/provider collects diagnostics.
-- Confirm that conversations stored with Expo SQLite remain local, and document where deletion happens.
-- Add an in-app way to delete stored conversations before release if conversation history is shipped.
-- If analytics, crash reporting, AI APIs, authentication, cloud sync, ads, payments, or remote object detection are added, update the privacy policy, store disclosures, and consent flows before release.
-- Document whether any data is encrypted in transit, encrypted at rest, shared with third parties, linked to the user, used for tracking, or retained by a provider.
-
-### App permissions and consent
-
 - Verify iOS and Android permission prompts for microphone, speech recognition, and camera on physical devices.
 - Make permission purpose strings specific, accurate, and consistent with real behavior in `app.json`.
-- Do not request camera, microphone, or speech recognition permissions before the user reaches a feature that needs them.
-- If any sensitive data is collected or shared beyond what users reasonably expect, add prominent in-app disclosure and consent before collection.
-- Confirm the app remains usable or clearly explains limitations when permissions are denied.
 
 ### Accessibility, safety, and product claims
 
@@ -321,7 +310,6 @@ This section is an engineering checklist, not legal advice. Before publishing He
 - Avoid implying that Helprr is a medical device, emergency service, safety system, navigation aid, or professional substitute unless the app is legally reviewed and certified for that use.
 - Keep the Safety Notice visible and plain-language: speech recognition, speech output, camera features, and object detection can be inaccurate, delayed, or unavailable.
 - Test with accessibility settings enabled, including screen readers, larger text, reduced motion, RTL layout, and platform contrast settings.
-- If the app targets children or families, complete a separate child privacy and store policy review before release.
 
 ### Apple App Store checklist
 
@@ -351,8 +339,11 @@ This section is an engineering checklist, not legal advice. Before publishing He
 Reference policies and docs:
 
 - Expo SDK 56 reference: https://docs.expo.dev/versions/v56.0.0/
+- Expo Launch: https://launch.expo.dev/
 - EAS Build: https://docs.expo.dev/build/introduction/
+- EAS Submit: https://docs.expo.dev/submit/introduction/
 - EAS Update: https://docs.expo.dev/eas-update/introduction/
+- EAS Workflows: https://docs.expo.dev/eas/workflows/get-started/
 - Apple App Privacy Details: https://developer.apple.com/app-store/app-privacy-details/
 - Apple App Review Guidelines: https://developer.apple.com/app-store/review/guidelines/
 - Google Play User Data policy: https://support.google.com/googleplay/android-developer/answer/10144311

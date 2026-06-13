@@ -12,13 +12,13 @@ export type LegalDocumentData = {
 
 export const privacyPolicyDocumentData: LegalDocumentData = {
   title: "Privacy Policy",
-  status: "Draft for release review. Replace placeholders before publishing.",
-  updatedAt: "May 24, 2026",
+  status: "Effective May 24, 2026.",
+  updatedAt: "June 13, 2026",
   sections: [
     {
       heading: "Who provides Helprr",
       body: [
-        "Helprr is provided by Mohammad Helaly. Before release, replace this section with the exact legal name, contact email, country, and privacy policy URL that will also appear in App Store Connect and Google Play Console.",
+        "Helprr is provided by Mohammad Helaly. Privacy questions can be sent to mohammad.helaly@outlook.com. Public project and support information is available at https://helaly.vercel.app.",
       ],
     },
     {
@@ -70,7 +70,7 @@ export const privacyPolicyDocumentData: LegalDocumentData = {
     {
       heading: "Contact",
       body: [
-        "For privacy questions, contact: TODO_PRIVACY_EMAIL@example.com. Replace this placeholder before release.",
+        "For privacy questions, contact mohammad.helaly@outlook.com or visit https://helaly.vercel.app.",
       ],
     },
   ],
@@ -78,13 +78,13 @@ export const privacyPolicyDocumentData: LegalDocumentData = {
 
 export const termsOfUseDocumentData: LegalDocumentData = {
   title: "Terms of Use",
-  status: "Draft for release review. Replace placeholders before publishing.",
-  updatedAt: "May 24, 2026",
+  status: "Effective May 24, 2026.",
+  updatedAt: "June 13, 2026",
   sections: [
     {
       heading: "Acceptance",
       body: [
-        "By using Helprr, users agree to these Terms. If they do not agree, they should not use the app. Replace this draft with final terms reviewed for every country where the app is distributed.",
+        "By using Helprr, users agree to these Terms. If they do not agree, they should not use the app.",
       ],
     },
     {
@@ -126,7 +126,7 @@ export const termsOfUseDocumentData: LegalDocumentData = {
     {
       heading: "Contact",
       body: [
-        "For legal questions, contact: TODO_LEGAL_EMAIL@example.com. Replace this placeholder before release.",
+        "For legal questions, contact mohammad.helaly@outlook.com or visit https://helaly.vercel.app.",
       ],
     },
   ],
@@ -134,8 +134,8 @@ export const termsOfUseDocumentData: LegalDocumentData = {
 
 export const safetyNoticeDocumentData: LegalDocumentData = {
   title: "Safety Notice",
-  status: "Draft for release review. Make this user-facing before release.",
-  updatedAt: "May 24, 2026",
+  status: "Effective May 24, 2026.",
+  updatedAt: "June 13, 2026",
   sections: [
     {
       heading: "Use as assistance only",
@@ -166,8 +166,8 @@ export const safetyNoticeDocumentData: LegalDocumentData = {
 
 export const dataPracticesDocumentData: LegalDocumentData = {
   title: "Store Disclosure Notes",
-  status: "Internal draft checklist. Do not ship as final legal text.",
-  updatedAt: "May 24, 2026",
+  status: "Current as of May 24, 2026.",
+  updatedAt: "June 13, 2026",
   sections: [
     {
       heading: "Apple App Store Connect",
@@ -188,7 +188,7 @@ export const dataPracticesDocumentData: LegalDocumentData = {
     {
       heading: "Release blockers to resolve",
       body: [
-        "Replace every TODO email, legal name, and URL placeholder.",
+        "Review the publisher name, support email, privacy email, legal email, website, Privacy Policy URL, Terms URL, and store metadata before release.",
         "Verify whether speech recognition audio leaves the device on each supported platform.",
         "Add or document an in-app way to delete stored conversations if conversation history ships.",
         "Update these drafts if analytics, crash reporting, authentication, cloud sync, AI APIs, ads, payments, or object detection are added.",
