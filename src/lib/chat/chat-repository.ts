@@ -12,7 +12,7 @@ import {
 import { i18n } from "@/lib/i18n/i18n";
 import { createId } from "@/lib/utils/prefixed-id";
 
-// This is to limit the number of converstations stored locally
+// This is to limit the number of conversations stored locally
 // To increase the number of conversations, increase the conversationLimit
 // To remove the limit, remove conversationLimit, pruneConversations and all calls to it in the database functions in this file
 const conversationLimit = 10;
